@@ -1,0 +1,9 @@
+#!/bin/sh
+
+TARGET_IPSET='wan'
+TARGET_URL="http://get-bypass-ip.local/bypassvpn.txt"
+TARGET_FNAME="/var/tmp_AS"
+
+curl "$TARGET_URL" 2>/dev/null >"$TARGET_FNAME"
+awk -v ipset="$TARGET_IPSET" '{print "add " ipset " " $1}' "$TARGET_FNAME" | ipset restore -!
+rm -f "$TARGET_FNAME"
